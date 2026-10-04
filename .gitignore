@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+data/scans.db
+data/blacklist/feed_urls.txt
+data/blacklist/feed_domains.txt
+data/blacklist/feed_meta.json
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+dist/
+build/
+.DS_Store
+.slide-build/

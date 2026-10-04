@@ -1,0 +1,16 @@
+{
+  "entries": [
+    {
+      "url": "http://paypal-secure-login-example.xyz/verify",
+      "domain": "paypal-secure-login-example.xyz",
+      "source": "seed_local",
+      "detected_at": "2026-01-01T00:00:00+00:00"
+    },
+    {
+      "url": null,
+      "domain": "evil-vietcombank-login.tk",
+      "source": "seed_local",
+      "detected_at": "2026-01-01T00:00:00+00:00"
+    }
+  ]
+}

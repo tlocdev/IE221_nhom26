@@ -1,0 +1,62 @@
+[
+  {
+    "brand": "Vietcombank",
+    "keywords": ["vietcombank", "vcb"],
+    "official_domains": ["vietcombank.com.vn"]
+  },
+  {
+    "brand": "BIDV",
+    "keywords": ["bidv"],
+    "official_domains": ["bidv.com.vn"]
+  },
+  {
+    "brand": "MB Bank",
+    "keywords": ["mbbank", "mbbank"],
+    "official_domains": ["mbbank.com.vn"]
+  },
+  {
+    "brand": "Techcombank",
+    "keywords": ["techcombank", "tcb"],
+    "official_domains": ["techcombank.com.vn"]
+  },
+  {
+    "brand": "MoMo",
+    "keywords": ["momo"],
+    "official_domains": ["momo.vn"]
+  },
+  {
+    "brand": "ZaloPay",
+    "keywords": ["zalopay"],
+    "official_domains": ["zalopay.vn"]
+  },
+  {
+    "brand": "Google",
+    "keywords": ["google", "gmail"],
+    "official_domains": ["google.com", "gmail.com"]
+  },
+  {
+    "brand": "Facebook",
+    "keywords": ["facebook", "faceb00k", "fb"],
+    "official_domains": ["facebook.com", "fb.com", "meta.com"]
+  },
+  {
+    "brand": "Microsoft",
+    "keywords": ["microsoft", "outlook", "office365"],
+    "official_domains": ["microsoft.com", "live.com", "office.com", "outlook.com"]
+  },
+  {
+    "brand": "Apple",
+    "keywords": ["apple", "icloud", "appleid"],
+    "official_domains": ["apple.com", "icloud.com"]
+  },
+  {
+    "brand": "PayPal",
+    "keywords": ["paypal"],
+    "official_domains": ["paypal.com", "paypal.me"]
+  },
+  {
+    "brand": "Amazon",
+    "keywords": ["amazon", "aws"],
+    "official_domains": ["amazon.com", "aws.amazon.com"]
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "model_name": "XGBoost",
+  "model_version": "1.2",
+  "feature_schema_version": "1",
+  "trained_at": "2026-09-28T00:36:27.123305+00:00",
+  "dataset_version": "phiusiil_v1",
+  "dataset_path": "data\\datasets\\PhiUSIIL_Phishing_URL_Dataset.csv",
+  "rows_used": 235370,
+  "split": "domain_aware",
+  "label_convention": "1=phishing, 0=safe (PhiUSIIL labels inverted if used)",
+  "selection_rationale": "Auto-selected XGBoost by lowest test FNR (tie-break: higher phishing F1).",
+  "notes": "PhiUSIIL lacks real TLS SAN checks; hostname_match is not copied from IsHTTPS. metrics include train vs test for overfitting checks. predict_proba near 1.0 means trees vote phishing, not calibrated certainty."
+}

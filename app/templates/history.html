@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Lịch sử — Scam Detector{% endblock %}
+{% block content %}
+<section class="history-page">
+  <header class="page-intro">
+    <h1>Lịch sử</h1>
+    <p>Các lần phân tích đã lưu trên máy (SQLite).</p>
+  </header>
+
+  <div class="history-wrap">
+    <table class="history-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Domain</th>
+          <th>Trạng thái</th>
+          <th>Rủi ro</th>
+          <th>Mức</th>
+          <th>Thời gian</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for s in scans %}
+        <tr>
+          <td><a href="/scans/{{ s.id }}">#{{ s.id }}</a></td>
+          <td class="domain-cell">{{ s.domain }}</td>
+          <td>{{ s.status | status_vi }}</td>
+          <td>{{ s.risk_score if s.risk_score is not none else '—' }}</td>
+          <td><span class="level-tag level-{{ s.risk_level or 'unknown' }}">{{ s.risk_level | level_vi }}</span></td>
+          <td class="time-cell">{{ s.started_at }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6">Chưa có scan nào.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

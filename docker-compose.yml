@@ -1,0 +1,29 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: scam
+      POSTGRES_PASSWORD: scam
+      POSTGRES_DB: scam_detector
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U scam -d scam_detector"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql+psycopg2://scam:scam@db:5432/scam_detector
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:

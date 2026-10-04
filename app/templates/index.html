@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Scam Detector — Phân tích website{% endblock %}
+{% block content %}
+<section class="hero">
+  <p class="hero-kicker">Đồ án · phân tích dấu hiệu lừa đảo</p>
+  <h1 class="hero-brand">Scam Detector</h1>
+  <p class="lede">Nhập URL — hệ thống thu thập đặc trưng, chấm điểm rủi ro và giải thích vì sao đáng ngờ.</p>
+
+  <form class="scan-form" id="scan-form" method="post" action="/scan">
+    <label for="url">Địa chỉ website</label>
+    <div class="row">
+      <input id="url" name="url" type="text" required
+             placeholder="tiktokshopseller-vn.com"
+             autocomplete="url"
+             title="Nhập domain hoặc URL (có thể bỏ http/https)" />
+      <button type="submit" id="scan-submit">Phân tích</button>
+    </div>
+  </form>
+</section>
+
+{% if recent %}
+<section class="recent">
+  <div class="section-head">
+    <h2>Vừa kiểm tra</h2>
+    <a class="text-link" href="/history">Xem tất cả</a>
+  </div>
+  <ul class="recent-list">
+    {% for s in recent %}
+    <li>
+      <a class="recent-domain" href="/scans/{{ s.id }}">{{ s.domain }}</a>
+      <span class="level-tag level-{{ s.risk_level or 'unknown' }}">
+        {% if s.risk_level %}{{ s.risk_level | level_vi }}{% else %}{{ s.status | status_vi }}{% endif %}
+      </span>
+      {% if s.risk_score is not none %}
+      <span class="recent-score">{{ s.risk_score }}</span>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+{% endif %}
+{% endblock %}

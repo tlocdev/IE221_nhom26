@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block body_class %}page-report{% endblock %}
+{% block title %}Đang phân tích — Scam Detector{% endblock %}
+{% block content %}
+<article class="report report-with-sidebar" id="analyze-page" data-url="{{ target_url }}">
+  <div class="report-main">
+    <header class="report-top">
+      <p class="eyebrow" id="analyze-url">{{ target_url }}</p>
+      <h1 id="analyze-domain">{{ display_host }}</h1>
+      <p class="meta-line">
+        Trạng thái <strong id="analyze-status">Đang phân tích</strong>
+        · hệ thống đang chạy các bước kiểm tra
+      </p>
+    </header>
+
+    <section class="verdict analyzing-verdict">
+      <div class="verdict-score">
+        <p class="verdict-label">Điểm rủi ro</p>
+        <p class="verdict-number skeleton-pulse">—<span>/100</span></p>
+        <p class="verdict-level muted">Đang tính…</p>
+      </div>
+      <dl class="evidence-strip">
+        <div>
+          <dt>Điểm quy tắc</dt>
+          <dd class="skeleton-pulse">—</dd>
+        </div>
+        <div>
+          <dt>Dự đoán mô hình</dt>
+          <dd class="skeleton-pulse">—</dd>
+        </div>
+        <div>
+          <dt>Danh sách đen</dt>
+          <dd class="skeleton-pulse">—</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="live-work">
+      <h2>Tiến trình phân tích</h2>
+      <ol class="live-steps" id="live-steps">
+        {% for step in analyze_steps %}
+        <li class="live-step" data-step="{{ loop.index0 }}">
+          <span class="live-step-mark" aria-hidden="true"></span>
+          <span class="live-step-text">{{ step }}</span>
+        </li>
+        {% endfor %}
+      </ol>
+      <p class="live-hint" id="live-hint">Việc này có thể mất vài giây (WHOIS, TLS, HTML, danh sách đen).</p>
+      <p class="live-error" id="live-error" hidden></p>
+    </section>
+  </div>
+
+  <aside class="rules-sidebar" aria-label="Quy tắc đang kiểm tra">
+    <div class="rules-sidebar-inner">
+      <h2>Quy tắc kiểm tra</h2>
+      <p class="rules-sidebar-hint" id="rules-progress">Đang chạy…</p>
+      <ul class="rule-ticks" id="live-rules">
+        {% for item in pending_rules %}
+        <li class="rule-tick is-pending" data-rule="{{ item.id }}">
+          <span class="tick-mark" aria-hidden="true">·</span>
+          <span class="tick-label">{{ item.label }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </aside>
+</article>
+<script src="/static/js/analyze.js?v=1" defer></script>
+{% endblock %}

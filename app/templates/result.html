@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% block body_class %}page-report{% endblock %}
+{% block title %}Báo cáo — {{ scan.domain }}{% endblock %}
+{% block content %}
+<article class="report report-with-sidebar">
+  <div class="report-main">
+    <header class="report-top">
+      <p class="eyebrow">{{ scan.normalized_url }}</p>
+      <h1>{{ scan.domain }}</h1>
+      <p class="meta-line">
+        Trạng thái <strong>{{ scan.status | status_vi }}</strong>
+        {% if scan.error_code %} · {{ scan.error_code }}{% endif %}
+        {% if scan.model_version %} · phiên bản mô hình {{ scan.model_version }}{% endif %}
+      </p>
+    </header>
+
+    {% if scan.risk_score is not none %}
+    <section class="verdict anim-in">
+      <div class="verdict-score level-{{ scan.risk_level }}">
+        <p class="verdict-label">Điểm rủi ro</p>
+        <p class="verdict-number">{{ scan.risk_score }}<span>/100</span></p>
+        <p class="verdict-level">{{ scan.risk_level | level_vi }}</p>
+      </div>
+
+      <dl class="evidence-strip">
+        <div>
+          <dt>Điểm quy tắc</dt>
+          <dd>{{ scan.rule_score if scan.rule_score is not none else '—' }}<span>/100</span></dd>
+        </div>
+        <div>
+          <dt>Dự đoán mô hình</dt>
+          <dd>
+            {% if scan.ml_phishing_probability is not none %}
+              {{ '%.1f'|format(scan.ml_phishing_probability * 100) }}%
+            {% else %}
+              Không có
+            {% endif %}
+          </dd>
+          <dd class="sub">Xác suất phishing do mô hình máy học (AI) ước tính</dd>
+        </div>
+        <div>
+          <dt>Danh sách đen</dt>
+          <dd>
+            {% if scan.threat_intel and scan.threat_intel.hit %}Có trong danh sách{% else %}Không có trong danh sách{% endif %}
+          </dd>
+          {% if scan.threat_intel and scan.threat_intel.source %}
+          <dd class="sub">Nguồn: {{ scan.threat_intel.source | source_vi }}</dd>
+          {% elif scan.threat_intel and scan.threat_intel.feed_stats %}
+          <dd class="sub">
+            Đã nạp {{ scan.threat_intel.feed_stats.domain_count or 0 }} tên miền
+            · {{ scan.threat_intel.feed_stats.url_count or 0 }} URL
+          </dd>
+          {% endif %}
+        </div>
+      </dl>
+    </section>
+
+    <p class="disclaimer">{{ scan.disclaimer or 'Điểm rủi ro là chỉ số tổng hợp, không phải xác suất website lừa đảo.' }}</p>
+    {% endif %}
+
+    <section class="findings">
+      <h2>Phát hiện</h2>
+      {% if scan.findings %}
+      <ol class="finding-list">
+        {% for f in scan.findings %}
+        <li class="sev-{{ f.severity }}">
+          <div class="finding-meta">
+            <span class="sev">{{ f.severity | severity_vi }}</span>
+            <span class="ftype">{{ f.type | finding_type_vi }}</span>
+          </div>
+          <p>{{ f.description }}</p>
+          <span class="src">{{ f.source | source_vi }}</span>
+        </li>
+        {% endfor %}
+      </ol>
+      {% else %}
+      <p class="empty">Không có phát hiện (hoặc quá trình quét thất bại sớm).</p>
+      {% endif %}
+    </section>
+
+    {% if scan.features %}
+    <details class="features-drawer">
+      <summary>Xem đặc trưng kỹ thuật</summary>
+      <pre class="code-block">{{ scan.features | tojson(indent=2) }}</pre>
+    </details>
+    {% endif %}
+
+    <p class="report-nav">
+      <a href="/">Phân tích URL khác</a>
+      <a href="/history">Lịch sử</a>
+    </p>
+  </div>
+
+  <aside class="rules-sidebar" aria-label="Danh sách quy tắc">
+    <div class="rules-sidebar-inner">
+      <h2>Quy tắc kiểm tra</h2>
+      <p class="rules-sidebar-hint">
+        {% set passed = rule_checklist | selectattr('ok') | list | length %}
+        {{ passed }}/{{ rule_checklist | length }} mục đạt
+      </p>
+      <ul class="rule-ticks">
+        {% for item in rule_checklist %}
+        <li class="rule-tick {% if item.ok %}is-ok{% else %}is-fail sev-{{ item.severity }}{% endif %}">
+          <span class="tick-mark" aria-hidden="true">{% if item.ok %}✓{% else %}!{% endif %}</span>
+          <span class="tick-label">{{ item.label }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </aside>
+</article>
+{% endblock %}
